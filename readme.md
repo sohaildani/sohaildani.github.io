@@ -1,4 +1,2 @@
-#GitHub Pages website
-
-Simple website, made using Freelancer - One Page - Bootstrap Theme
-www.startbootstrap.com/template-overviews/freelancer/
+#My Personnel Website 
+crerated using bootstrap,html,css,js
