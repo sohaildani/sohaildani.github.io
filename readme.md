@@ -5,5 +5,5 @@ It containd professional and personal details and links to all social platforms 
 https://sohaildani.github.io/
 #Contributor 
 Chetanya Kandhari
-meet him
- @ availchet.github.io
+meet him at
+http://availchet.github.io/
