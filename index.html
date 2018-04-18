@@ -1,256 +1,190 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
-
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Portfolio</title>
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
-    <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Shopping Cart</title>
+    <script>
+        //create array that will hold all ordered products
+        var shoppingCart = [];
+
+        //this function manipulates DOM and displays content of our shopping cart
+        function displayShoppingCart(){
+            var orderedProductsTblBody=document.getElementById("orderedProductsTblBody");
+            //ensure we delete all previously added rows from ordered products table
+            while(orderedProductsTblBody.rows.length>0) {
+                orderedProductsTblBody.deleteRow(0);
+            }
+
+            //variable to hold total price of shopping cart
+            var cart_total_price=0;
+            //iterate over array of objects
+            for(var product in shoppingCart){
+                //add new row
+                var row=orderedProductsTblBody.insertRow();
+                //create five cells for product properties
+                var cellDel = row.insertCell(0);
+                var cellName = row.insertCell(1);
+                var cellQuantity = row.insertCell(2);
+                var cellRate = row.insertCell(3);
+                var cellPrice = row.insertCell(4);
+                cellPrice.align="right";
+                //fill cells with values from current product object of our array
+                cellDel.innerHTML = "<input type='button' value='x' onclick='SomeDeleteRowFunction(this)'>"
+                cellName.innerHTML = shoppingCart[product].Name;
+                cellQuantity.innerHTML = "<button onclick='increase_by_one(&#39;qty1&#39;);'>+</button> "+"<input id='qty1' type='text' value='1' name='qty' />"+"<button onclick='decrease_by_one(&#39;qty1&#39;);'>-</button>";//"|"+shoppingCart[product].Quantity
+                shoppingCart[product].Quantity = document.getElementById("qty1").value;
+                cellRate.innerHTML = shoppingCart[product].Rate;
+                shoppingCart[product].Price = shoppingCart[product].Rate*shoppingCart[product].Quantity;
+                cellPrice.innerHTML = shoppingCart[product].Price;
+                cart_total_price+=shoppingCart[product].Price;
+            }
+            //fill total cost of our shopping cart
+            document.getElementById("cart_total").innerHTML=cart_total_price;
+        }
+
+
+        function AddtoCart(name,quantity,rate,price){
+           //Below we create JavaScript Object that will hold three properties you have mentioned:    Name,Description and Price
+           var singleProduct = {};
+           //Fill the product object with data
+           //singleProduct.Index=index;
+           singleProduct.Name=name;
+           singleProduct.Quantity=quantity;
+           singleProduct.Rate=rate;
+           singleProduct.Price=price;
+           //Add newly created product to our shopping cart
+           shoppingCart.push(singleProduct);
+           //call display function to show on screen
+           displayShoppingCart();
+
+        }
+
+
+         var q = [];
+
+
+
+        function SomeDeleteRowFunction(o) {
+         //no clue what to put here
+            var p=o.parentNode.parentNode;
+            //p.parentNode.removeChild(p);
+
+          //  var q=array.indexOf(p);
+            //alert(q);
+         //   if (q > -1) {
+           //     array.splice(q, 1);
+           // }
+            shoppingCart.pop();
+            displayShoppingCart();
+        }
+
+
+
+        // Quantity spin buttons
+        function increase_by_one(field) {
+         nr = parseInt(document.getElementById(field).value);
+         document.getElementById(field).value = nr + 1;
+        }
+
+        function decrease_by_one(field) {
+         nr = parseInt(document.getElementById(field).value);
+         if (nr > 0) {
+           if( (nr - 1) > 0) {
+             document.getElementById(field).value = nr - 1;
+           }
+         }
+        }
+    </script>
 </head>
-
 <body>
-    <div id="mobile-menu-open" class="shadow-large">
-        <i class="fa fa-bars" aria-hidden="true"></i>
-    </div>
-    <!-- End #mobile-menu-toggle -->
-    <header>
-        <div id="mobile-menu-close">
-            <span>Close</span> <i class="fa fa-times" aria-hidden="true"></i>
-        </div>
-        <ul id="menu" class="shadow">
-            <li>
-                <a href="#about">About</a>
-            </li>
-            <li>
-                <a href="#experience">Experience</a>
-            </li>
-            <li>
-                <a href="#education">Education</a>
-            </li>
-            <li>
-                <a href="#projects">Projects</a>
-            </li>
-            <li>
-                <a href="#skills">Skills</a>
-            </li>
-            <li>
-                <a href="#contact">Contact</a>
-            </li>
-        </ul>
-    </header>
-    <!-- End header -->
+    <table cellpadding="4" cellspacing="4" border="0">
+        <thead>
+            <tr>
+                <td colspan="2">
+                    Products for sale
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    Laptop
+                </td>
+                <td>
+                    Rs. 40000
+                </td>
+                <td>
+                    <input type="button" value="Add to cart" onclick="AddtoCart(&#39;Laptop&#39;,1,40000,40000)">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Mobile Phone
+                </td>
+                <td>
+                    Rs. 20000
+                </td>
+                <td>
+                    <input type="button" value="Add to cart" onclick="AddtoCart(&#39;Mobile Phone&#39;,1,20000,20000)">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Headphones
+                </td>
+                <td>
+                    Rs. 50000
+                </td>
+                <td>
+                    <input type="button" value="Add to cart" onclick="AddtoCart(&#39;Headphones&#39;,1,5000,5000)">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Tablet
+                </td>
+                <td>
+                    Rs. 30000
+                </td>
+                <td>
+                    <input type="button" value="Add to cart" onclick="AddtoCart(&#39;Tablet&#39;,1,30000,30000)">
+                </td>
+            </tr>
 
-    <div id="lead">
-        <div id="lead-content">
-            <h1>Mohd Sohail Khan</h1>
-            <h2>Software Engineer</h2>
-            <a href="MohdSohail.pdf" class="btn-rounded-white">Download Resume</a>
-        </div>
-        <!-- End #lead-content -->
 
-        <div id="lead-overlay"></div>
+        </tbody>
 
-        <div id="lead-down">
-            <span>
-                <i class="fa fa-chevron-down" aria-hidden="true"></i>
-            </span>
-        </div>
-        <!-- End #lead-down -->
-    </div>
-    <!-- End #lead -->
+    </table>
 
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h2 class="heading">About Me</h2>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                      		Student- YMCA University of Science and Technology
-• Loves to solve problem solving questions
-• competitive coding on online platform like HackerRank,HackerEank,Spoj.
-• Algorithm and Data Structures is favorite part of my study.
-• I loves to go in hackathons with my friends and creating any project based on theme given 
-there.
-			</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End #about -->
+    <table cellpadding="4" cellspacing="4" border="1" id="orderedProductsTbl">
+        <thead>
+            <tr>
+                <td>
+                    x
+                </td>
+                <td>
+                    Name
+                </td>
+                <td>
+                    Quantity
+                </td>
+                <td>
+                    Rate
+                </td>
+                <td>
+                    Price
+                </td>
 
-    <div id="experience" class="background-alt">
-        <h2 class="heading">Experience</h2>
-        <div id="experience-timeline">
-            <div data-date="May 2017 - July 2017">
-                <h3>Celebal</h3>
-                <h4>Software Engineering Intern</h4>
-                <p>
-			work on Postgre Database,Java
-                </p>
-            </div>
+            </tr>
+        </thead>
+        <tbody id="orderedProductsTblBody">
 
-            <div data-date="January 2108 -">
-                <h3>ST Microelectronics</h3>
-                <h4>Software Engineering Intern</h4>
-                <p>
-		    Work on Java,Unix,PL/SQL
-		    </p>
-            </div>
-
-            
-        </div>
-    </div>
-    <!-- End #experience -->
-
-    <div id="education">
-        <h2 class="heading">Education</h2>
-        <div class="education-block">
-            <h3>YMCA University of Science and Technology</h3>
-            <span class="education-date">Sept 2016 - Sept 2017</span>
-            <h4>Bachelor of Technology in Computer Science</h4>
-            <p>
-		    
-            </p>
-        </div>
-        <!-- End .education-block -->
-
-        
-        <!-- End .education-block -->
-    </div>
-    <!-- End #education -->
-
-    <div id="projects" class="background-alt">
-        <h2 class="heading">Projects</h2>
-        <div class="container">
-            <div class="row">
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/project.jpg" />
-                    </div>
-                    <!-- End .project-image -->
-                    <div class="project-info">
-                        <h3>MedicoAlert</h3>
-                        <p>
-MedicoAlert is a android based project which helps older people to take proper medication .
-It also provides facility of finding nearest hospital and doctors .
-Updates related to diseases which are trading is also provided                        </p>
-                        <a href="#">View Project</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-
-                <div class="project shadow-large">
-                    <div class="project-image">
-                        <img src="images/project.jpg" />
-                    </div>
-                    <!-- End .project-image -->
-                    <div class="project-info">
-                        <h3>RemindMe</h3>
-                        <p>
-RemindMe - A android app for task manager.                        </p>
-                        <a href="#">View Project</a>
-                    </div>
-                    <!-- End .project-info -->
-                </div>
-                <!-- End .project -->
-            </div>
-        </div>
-    </div>
-    <!-- End #projects -->
-
-    <div id="skills">
-        <h2 class="heading">Skills</h2>
-        <ul>
-            <li>JavaScript</li>
-            <li>Python</li>
-            
-            
-            <li>Node.js</li>
-            <li>Angular</li>
-            
-            
-            <li>Java</li>
-            <li>C</li>
-            
-            <li>C++</li>
-            
-            <li>JavaScript</li>
-            <li>Python</li>
-            
-            <li>Node.js</li>
-            <li>AngularJs</li>
-            
-            <li>Java</li>
-            <li>C</li>
-            
-            <li>C++</li>
-            
-        </ul>
-    </div>
-    <!-- End #skills -->
-
-    <div id="contact">
-        <h2>Get in Touch</h2>
-        <div id="contact-form">
-            <form method="POST" action="https://formspree.io/mohdsohaildk@gmail.com">
-                <input type="hidden" name="_subject" value="Contact request from personal website" />
-                <input type="email" name="_replyto" placeholder="Your email" required>
-                <textarea name="message" placeholder="Your message" required></textarea>
-                <button type="submit">Send</button>
-            </form>
-        </div>
-        <!-- End #contact-form -->
-    </div>
-    <!-- End #contact -->
-
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-5 copyright">
-                    <p>
-                        Copyright &copy; 2017 Sohaildani
-                    </p>
-                </div>
-                <div class="col-sm-2 top">
-                    <span id="to-top">
-                        <i class="fa fa-chevron-up" aria-hidden="true"></i>
-                    </span>
-                </div>
-                <div class="col-sm-5 social">
-                    <ul>
-                        <li>
-                            <a href="https://github.com/" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://stackoverflow.com/" target="_blank"><i class="fa fa-stack-overflow" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://twitter.com/" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                        </li>
-                        <li>
-                            <a href="https://plus.google.com/" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- End footer -->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/scripts.min.js"></script>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">Total</td><td align="right" id="cart_total">0</td>
+            </tr>
+        </tfoot>
+    </table>
 </body>
-
 </html>
